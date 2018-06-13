@@ -1,0 +1,8 @@
+html
+  head
+    title= title
+  body
+    h1= message
+    each val in list
+      div #{val.id} | #{val.name} |
+         a(href="./delete" + val.id) delete
