@@ -1,0 +1,19 @@
+version: "2"
+services:
+  edge:
+    image: edge
+    entrypoint: python3 edge-${METHOD}.py
+    environment:
+      EPOCH : ${EPOCH}
+      DELAY : ${DELAY}
+      BATCH_SIZE : ${BATCH_SIZE}
+      MQTT_PORT : ${MQTT_PORT}
+      MQTT_IP: ${MQTT_IP}
+      TEST_NUM : ${TEST_NUM}
+      DATA_ROOT : ${DATA_ROOT}
+      RESULT_ROOT : ${RESULT_ROOT}
+
+      PYTHONUNBUFFERED: 1
+    volumes:
+      - ./data/:/data
+      - ./result/:/result

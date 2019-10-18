@@ -1,0 +1,14 @@
+version: "2"
+services:
+  cloud:
+    image: cloud
+    entrypoint: python3 cloud-${METHOD}.py
+    environment:
+      DELAY: ${DELAY} # 1     edge_numbers
+      VAREPSILON: 1
+      EPOCH: 1000000
+      MQTT_IP: ${MQTT_IP} # 39.100.79.76
+      MQTT_PORT: ${MQTT_PORT} # 1996
+      BATCH_SIZE: ${BATCH_SIZE} # 24
+      PYTHONUNBUFFERED: 1
+    restart: on-failure
