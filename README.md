@@ -1,13 +1,19 @@
-# 3.2 面向边缘智能的异步差分隐私快速学习算法（TAPA）
+#  面向边缘智能的异步差分隐私快速学习算法（MAPA）
 ## 1. 算法介绍
 
 本算法为克服过时梯度对收敛影响，经典异步并行算法 SOA 收敛较集中式需要更多的迭代次数。我们提出的二阶段加速算法 TSA 和 TAPA 充分开采过时梯度对应的较大步长，使模型在第一阶段快速收敛到最优解周围的特定区域，在第二阶段限制学习率以减轻过时梯度影响确保模型收敛到最优解。算法 TSA 指二阶段加速算法（不含差分隐私保护），全称为 Two-stage accelerating algorithm。TAPA 指二阶段加速隐私算法，全称为 Two-stage accelerating private algorithm.
 
 本项目是一个基于 docker 容器的异步联邦学习方法，三种算法 soa、ts、tapa，分别为传统异步联邦学习、加速联邦学习以及添加差分隐私机制的加速联邦学习。在该项目中，这三种方法分别在 docker-compose.yml 文件中以 soa、ts、tapa 区分，测试结果在各个边缘设备中的 result 文件夹中保存，文件名需要按照规范（devicename-containerid-functionname.txt）命名。
 
-## 2. 项目结构
+## 2.环境安装
 
-（1）项目文件树
+|       OS       | Ubuntu 18.04 |
+| :------------: | :----------: |
+|     Docker     |   18.09.7    |
+| Docker-compose |    1.24.1    |
+|    OpenSSH     |     7.6      |
+
+## 3. 项目结构
 
 a) Cloud
 
@@ -28,11 +34,8 @@ b) Edge
 ```
 边缘端（edge）
 ├── Dockerfile    Docker镜像的构建文件
-├── Dockerfile.tx2    Docker镜像的构建文件
 ├── docker-compose.yml   定义服务、网络和卷的YAML文件
-├── docker-compose.tx2.yml   定义服务、网络和卷的YAML文件
 ├── sources.list
-├── sources.tx2.list
 ├── edge-soa.py
 ├── edge-mapa.py
 ├── edge-ms.py
@@ -44,60 +47,83 @@ b) Edge
  
 ```
 
-（2）文件用途说明
+## 4.网络配置
+在应用运行前，先进行用户操作设备与工作节点的网络配置，将网络拓扑写入`ssh_config`文件，如：
 
-云端 `cloud-soa/tapa/ts.py`、`params.py` 文件是程序运行 python 文件。
+```
+Host cloud
+    HostName xxx.xxx.xxx.xxx
+    Port 22
+    User node2user
 
-边缘端 `data` 文件夹是挂载的数据集存放文件夹，`edge-ts/soa/tapa.py` 文件是程序运行的相关 python 文件，`result`文件夹是挂载的结果存放文件夹。
+Host edge1                                 #节点名称
+    HostName xxx.xxx.xxx.xxx                   #ip
+    Port 22                                    #port
+    User node1user                             #ssh连接的User
 
-`docker-compose.yml`文件指定了使用的容器并定义了环境变量等配置。`Dockerfile` 文件定义了运行环境（包括软件包依赖、语言运行环境、语言软件包依赖等）。
+```
 
-## 3.环境安装
-### Docker环境安装
+## 5.参数设置
+超参在Makefile文件中定义
 
-`sudo apt-get install docker-ce`
-### Docker-Compose安装
-`sudo curl -L https://github.com/docker/compose/releases/download/1.17.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose`
+```
+# In cloud 
+CLOUD := cloud
+MQTT_IP ?= 192.168.0.101
+MQTT_PORT ?= 1884
 
-## 4.项目运行
-(1) 网络配置
+# In edge
+EDGES := edge1
+EDGES_NUM ?=1
+CONTAINER_NUM ?=3
+METHOD ?= soa  #soa, ts, tapa
+BATCH_SIZE ?= 24
+EPOCH ?= 1
+TEST_NUM ?= 100
+DATA_ROOT ?= './data/'
+RESULT_ROOT ?= './result/'
 
-ssh_config 文件中填入相应云端IP、PORT等信息
-
-
-(3） 超参定义
+```
 
 | **cloud**  |                                  |
 | :--------- | :------------------------------: |
-| MASTER     |         master 节点名称          |
 | CLIENT_NUM |          边缘节点的个数          |
 | MQTT_IP    |  Afl_cloud 中 MQTT broker 的 ip  |
 | MQTT_PORT  | Afl_cloud 中 MQTT broker 的 port |
 
 | **edge**    |                                   |
 | :---------- | :-------------------------------: |
+| DATA_ROOT   |         训练、测试数据集          |
+| RESULT_ROOT | 结果存储文件目录，格式为'./xxxx/' |
 | METHOD      |      方法名（soa、ts、tapa）      |
-| CLIENT_ID   |           边缘节点名称            |
 | EPOCH       |           边缘迭代次数            |
-| MQTT_IP     |  Afl_cloud 中 MQTT broker 的 ip   |
-| MQTT_PORT   | Afl_cloud 中 MQTT broker 的 port  |
 | BATCH_SIZE  |  每个 minibatch 里训练样本的个数  |
 | TEST_NUM    |  每训练 TEST_NUM 次进行一次测试   |
 | DATA_ROOT   |         训练、测试数据集          |
 | RESULT_ROOT | 结果存储文件目录，格式为'./xxxx/' |
+| DATA_ROOT   |         训练、测试数据集          |
+| RESULT_ROOT | 结果存储文件目录，格式为'./xxxx/' |
 
-（4）指令执行过程
+## 6.运行
+##
+在使用流程中，在项目文件夹下，执行 shell 指令进行项目应用：
 
-a) cloud 和 edge 进行网络配置：`make net_config`
+```
+make net_config
+# 进行用户操作设备和工作节点间的网络配置，包括ssh免密操作的配置。完成这一步之后，用户操作设备可以直接通过ssh在其他工作节点上执行算法相关步骤。
 
-b) 构建镜像：`make build`
+make build
+# 将程序与算法数据包从用户操作设备传输到相应工作节点，并进行镜像构建。
 
-c) 启动容器：`make run`
+make run
+# 启动容器，将参数传输到各个工作节点上，为工作节点分配任务，开始执行算法工作。
 
-d) 查看主节点工作日志：`make logs`
+make logs
+# 看主节点上的工作日志，日志内容跟随当前程序执行情况即时动态刷新。
 
-e) 传输实验结果：`make result`
+make result
+#将实验结果输出到宿主机。
 
-f) 清理容器：`make clean`
-
-
+make clean
+# 清理全部容器，释放占用资源。
+```
