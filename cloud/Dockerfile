@@ -6,8 +6,8 @@ ADD ./sources.list  /etc/apt/sources.list
 ADD ./cloud-soa.py cloud-soa.py
 ADD ./cloud-ms.py cloud-ms.py
 ADD ./cloud-mapa.py cloud-mapa.py
+ADD ./cloud-audp.py cloud-audp.py
 ADD ./params.py params.py
-ADD torch-1.1.0a0+472be69-cp36-cp36m-linux_aarch64.whl ./
 
 
 RUN apt-get clean

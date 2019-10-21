@@ -6,7 +6,7 @@ ADD ./sources.list  /etc/apt/sources.list
 ADD ./edge-soa.py edge-soa.py
 ADD ./edge-ms.py edge-ms.py
 ADD ./edge-mapa.py edge-mapa.py
-ADD torch-1.1.0a0+472be69-cp36-cp36m-linux_aarch64.whl ./
+ADD ./edge-audp.py edge-audp.py
 
 
 RUN apt-get clean

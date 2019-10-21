@@ -85,8 +85,7 @@ if __name__=='__main__':
         f.data = params[i].float()
     
     for epoch in range(EPOCH):
-        for step, (b_x, b_y) in enumerate(train_loader): 
-            
+        for step, (b_x, b_y) in enumerate(train_loader):  
             output = cnn.forward(b_x)[0] 
             loss = nn.CrossEntropyLoss()(output, b_y)
             cnn.zero_grad()  
