@@ -38,7 +38,7 @@ In order to compare the algorithm, we set up three comparison methods, soa、 ms
 ├──result
 ├──Makefile                          Setting parameters    
 ├──README.md
-├──ssh_config
+└──ssh_config
  
 ```
 
