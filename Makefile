@@ -1,6 +1,6 @@
 # In cloud 
 CLOUD := cloud
-MQTT_IP ?= 192.168.0.101
+MQTT_IP ?= 192.168.0.101      # cloud device ip
 MQTT_PORT ?= 1884
 
 # In edge
