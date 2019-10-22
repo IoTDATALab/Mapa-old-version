@@ -66,31 +66,32 @@ cnn = CNN()
 acc =[]
 msgQueue = queue.Queue()
 
+def on_connect(mqttc, obj, flags, rc):
+    print("rc: " + str(rc))
 def on_message(mqttc, obj, msg):
-     msgQueue.put(msg.payload)
-
+    msgQueue.put(msg.payload)
 client = mqtt.Client(client_id = CLIENT_ID)
 client.on_message = on_message
 client.connect(MQTT_IP, MQTT_PORT, 600)
-client.subscribe([("ms_init_params", 2),("ms_params/" + CLIENT_ID, 2), ])
+client.subscribe([("asgd_init_params", 2), ("asgd_params/" + CLIENT_ID, 2)])
 client.loop_start()
 
 if __name__=='__main__':
     strat_time = time.time()
     acc =[]
     params = cPickle.loads(msgQueue.get())
-
     for i,f in enumerate(cnn.parameters()):
         f.data = params[i].float()
-       
+    
     for epoch in range(EPOCH):
         for step, (b_x, b_y) in enumerate(train_loader):  
+            
             output = cnn.forward(b_x)[0] 
             loss = nn.CrossEntropyLoss()(output, b_y)
             cnn.zero_grad()  
             loss.backward()    
             if step % TEST_NUM == 0:
-                man_file = open(RESULT_ROOT+'[EDGE_NUM:'+str(DELAY)+']'+'[METHOD:ms]', 'w')
+                man_file = open(RESULT_ROOT+'[EDGE_NUM:'+str(DELAY)+']'+'[METHOD:asgd]', 'w')
                 test_output, last_layer = cnn(test_x)
                 pred_y = torch.max(test_output, 1)[1].data.numpy()
                 accuracy = float((pred_y == test_y.data.numpy()).astype(int).sum()) / float(test_y.size(0))
@@ -104,8 +105,7 @@ if __name__=='__main__':
             w_o = cnn.out.weight.grad
             b_o = cnn.out.bias.grad       
             grads = [w_c1,b_c1,w_c2,b_c2,w_o,b_o]
-            client.publish("ms_grads/" + CLIENT_ID, cPickle.dumps(grads), 2)
+            client.publish("asgd_grads/" + CLIENT_ID, cPickle.dumps(grads), 2)
             params = cPickle.loads(msgQueue.get())
             for i,f in enumerate(cnn.parameters()):
                 f.data = params[i].float()
-    

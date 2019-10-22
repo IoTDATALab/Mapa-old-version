@@ -3,8 +3,7 @@ FROM ubuntu:16.04
 
 
 ADD ./sources.list  /etc/apt/sources.list 
-ADD ./cloud-soa.py cloud-soa.py
-ADD ./cloud-ms.py cloud-ms.py
+ADD ./cloud-asgd.py cloud-asgd.py
 ADD ./cloud-mapa.py cloud-mapa.py
 ADD ./cloud-audp.py cloud-audp.py
 ADD ./params.py params.py

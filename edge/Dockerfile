@@ -3,8 +3,7 @@ FROM ubuntu:16.04
 
 
 ADD ./sources.list  /etc/apt/sources.list 
-ADD ./edge-soa.py edge-soa.py
-ADD ./edge-ms.py edge-ms.py
+ADD ./edge-asgd.py edge-asgd.py
 ADD ./edge-mapa.py edge-mapa.py
 ADD ./edge-audp.py edge-audp.py
 

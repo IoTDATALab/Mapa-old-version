@@ -1,7 +1,7 @@
 #  Asynchronous Federated Learning with Differential Privacy for Edge Intelligence
 Multi-stage adjustable private algorithm(MAPA) by computational differential privacy (DP) to protect the training process,focusing on the impacts of noise on the machine learning in AFL and a better trade-off between the model accuracy and privacy guarantee to improve the trade-off by dynamically adjusting the variance of noise
 
-In order to compare the algorithm, we set up three comparison methods, soa、 ms and mapa. And the algorithm is encapsulated in the docker container and defined by the makefile.
+In order to compare the algorithm, we set up three comparison methods, asgd、 audp and mapa. And the algorithm is encapsulated in the docker container and defined by the makefile.
 ## 1.Environment Deployment
 
 |       OS       | Ubuntu 18.04 |
@@ -15,9 +15,9 @@ In order to compare the algorithm, we set up three comparison methods, soa、 ms
 
 ```
 ├──cloud
-|    ├── cloud-soa.py             Stochastic optimization algorithm 
-|    ├── cloud-mapa.py            Multi stage adjustable private algorithm
-|    ├── cloud-ms.py              Centralized gradient descent algorithm
+|    ├── cloud-asgd.py       
+|    ├── cloud-mapa.py            
+|    ├── cloud-audp.py              
 |    ├── Dockerfile               Docker image build file
 |    ├── docker-compose.yml       Defining YAML files for services, networks, and volumes
 |    ├── params.py
@@ -27,14 +27,14 @@ In order to compare the algorithm, we set up three comparison methods, soa、 ms
 |    ├── Dockerfile    
 |    ├── docker-compose.yml   
 |    ├── sources.list
-|    ├── edge-soa.py
+|    ├── edge-asgd.py
 |    ├── edge-mapa.py
-|    ├── edge-ms.py
+|    ├── edge-audp.py
 |    ├── data                               Datasets
 |    ├   └──MNIST
 |    ├      └──  …
 |    └──  result                              Output
-|        └── [EDGE_NUM:3][METHOD:soa]        Naming rules: number of edge nodes, number of containers
+|        └── [EDGE_NUM:3][METHOD:asgd]        Naming rules: number of edge nodes, number of containers
 ├──result
 ├──Makefile                          Setting parameters    
 ├──README.md
@@ -64,14 +64,14 @@ Algorithm-related parameters are defined in the Makefile，such as：
 ```
 # In cloud 
 CLOUD := cloud
-MQTT_IP ?= 192.168.0.101
+MQTT_IP ?= 192.168.0.101     
 MQTT_PORT ?= 1884
 
 # In edge
 EDGES := edge1
 EDGES_NUM ?=1
 CONTAINER_NUM ?=3            
-METHOD ?= soa  #soa, ms, mapa,audp
+METHOD ?= asgd              #asgd,  mapa,audp
 BATCH_SIZE ?= 24
 EPOCH ?= 1
 TEST_NUM ?= 100
@@ -82,15 +82,15 @@ RESULT_ROOT ?= './result/'
 
 | **cloud**  |                                  |
 | :--------- | :------------------------------: |
-| MQTT_IP    |  cloud device MQTT broker ip  |
+| MQTT_IP    |  cloud device ip  |
 | MQTT_PORT  | cloud device MQTT broker port |
 
 | **edge**  |                                  |
 | :--------- | :------------------------------: |
-|EDGES        | edge device name   |
+|EDGES        | edge device name         |
 |EDGES_NUM    | edge device numbers             |
 |CONTAINER_NUM| Number of containers per edge device  |
-|METHOD       | (SOA, MS, MAPA ,AUDP)        |
+|METHOD       | ( asgd,  mapa,audp)        |
 |BATCH_SIZE   | Batch size                 |
 |EPOCH        | Epoch                          |
 |TEST_NUM     | Test every TEST_NUM iterations   |

@@ -1,16 +1,16 @@
 # In cloud 
 CLOUD := cloud
 MQTT_IP ?= 192.168.0.101      # cloud device ip
-MQTT_PORT ?= 1884
+MQTT_PORT ?= 1884              
 
 # In edge
 EDGES := edge1
-EDGES_NUM ?=1
-CONTAINER_NUM ?=3
-METHOD ?= audp  #soa, ts, tapa,audp
+EDGES_NUM ?=1      #the number of edge device
+CONTAINER_NUM ?=3     #the number of container in each edge device
+METHOD ?= audp         #asgd, mapa,audp
 BATCH_SIZE ?= 24
 EPOCH ?= 1
-TEST_NUM ?= 100
+TEST_NUM ?= 100      
 DATA_ROOT ?= './data/'
 RESULT_ROOT ?= './result/'
 
