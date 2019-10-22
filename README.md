@@ -1,7 +1,7 @@
 #  Asynchronous Federated Learning with Differential Privacy for Edge Intelligence
 Multi-stage adjustable private algorithm(MAPA) by computational differential privacy (DP) to protect the training process,focusing on the impacts of noise on the machine learning in AFL and a better trade-off between the model accuracy and privacy guarantee to improve the trade-off by dynamically adjusting the variance of noise
 
-In order to compare the algorithm, we set up three comparison methods, asgd、 audp and mapa. And the algorithm is encapsulated in the docker container and defined by the makefile.
+In order to compare the algorithm, we set up three comparison methods, asgd、audp and mapa. And the algorithm is encapsulated in the docker container and defined by the makefile.
 ## 1.Environment Deployment
 
 |       OS       | Ubuntu 18.04 |
