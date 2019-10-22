@@ -11,8 +11,6 @@ In order to compare the algorithm, we set up three comparison methods, asgd、au
 |    OpenSSH     |     7.6      |
 ## 2. Project structure
 
-* Cloud
-
 ```
 ├──cloud
 |    ├── cloud-asgd.py       
