@@ -64,7 +64,7 @@ Algorithm-related parameters are defined in the Makefile，such as：
 ```
 # In cloud 
 CLOUD := cloud                
-MQTT_IP ?= 192.168.0.101        #cloud device ip
+MQTT_IP ?= xxx.xxx.xxx.xxx        #cloud device ip
 MQTT_PORT ?= 1884               #cloud device MQTT broker port
 
 # In edge  
