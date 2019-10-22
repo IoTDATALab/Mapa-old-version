@@ -85,13 +85,12 @@ RESULT_ROOT ?= './result/'
 | MQTT_IP    |  cloud device MQTT broker ip  |
 | MQTT_PORT  | cloud device MQTT broker port |
 
-
 | **edge**  |                                  |
 | :--------- | :------------------------------: |
 |EDGES        | edge device name   |
 |EDGES_NUM    | edge device numbers             |
 |CONTAINER_NUM| Number of containers per edge device  |
-|METHOD       | (SOA, MS, MAPA )        |
+|METHOD       | (SOA, MS, MAPA ,AUDP)        |
 |BATCH_SIZE   | Batch size                 |
 |EPOCH        | Epoch                          |
 |TEST_NUM     | Test every TEST_NUM iterations   |
