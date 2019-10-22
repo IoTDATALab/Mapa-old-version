@@ -63,40 +63,22 @@ Algorithm-related parameters are defined in the Makefile，such as：
 
 ```
 # In cloud 
-CLOUD := cloud
-MQTT_IP ?= 192.168.0.101     
-MQTT_PORT ?= 1884
+CLOUD := cloud                
+MQTT_IP ?= 192.168.0.101        #cloud device ip
+MQTT_PORT ?= 1884               #cloud device MQTT broker port
 
-# In edge
-EDGES := edge1
-EDGES_NUM ?=1
-CONTAINER_NUM ?=3            
-METHOD ?= asgd              #asgd,  mapa,audp
+# In edge  
+EDGES := edge1                 #edge device name
+EDGES_NUM ?=1                   #edge device numbers
+CONTAINER_NUM ?=3             #Number of containers per edge device
+METHOD ?= asgd                #asgd,mapa,audp
 BATCH_SIZE ?= 24
 EPOCH ?= 1
-TEST_NUM ?= 100
-DATA_ROOT ?= './data/'
-RESULT_ROOT ?= './result/'
+TEST_NUM ?= 100               #Test every TEST_NUM iterations
+DATA_ROOT ?= './data/'            #Dataset directory 
+RESULT_ROOT ?= './result/'             #result directory  
 
 ```
-
-| **cloud**  |                                  |
-| :--------- | :------------------------------: |
-| MQTT_IP    |  cloud device ip  |
-| MQTT_PORT  | cloud device MQTT broker port |
-
-| **edge**  |                                  |
-| :--------- | :------------------------------: |
-|EDGES        | edge device name         |
-|EDGES_NUM    | edge device numbers             |
-|CONTAINER_NUM| Number of containers per edge device  |
-|METHOD       | ( asgd,  mapa,audp)        |
-|BATCH_SIZE   | Batch size                 |
-|EPOCH        | Epoch                          |
-|TEST_NUM     | Test every TEST_NUM iterations   |
-|DATA_ROOT    |Dataset directory           |
-|RESULT_ROOT  |result directory                | 
-
 
 ## 5.Run
 Under the project folder, execute the shell command to apply the project:
