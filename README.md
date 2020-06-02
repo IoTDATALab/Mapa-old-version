@@ -1,48 +1,15 @@
 #  Asynchronous Federated Learning with Differential Privacy for Edge Intelligence
 Multi-stage adjustable private algorithm(MAPA) by computational differential privacy (DP) to protect the training process,focusing on the impacts of noise on the machine learning in AFL and a better trade-off between the model accuracy and privacy guarantee to improve the trade-off by dynamically adjusting the variance of noise
 
-In order to compare the algorithm, we set up three comparison methods, asgd、audp and mapa. And the algorithm is encapsulated in the docker container and defined by the makefile.
+In order to compare the algorithm,we set up seven comparison methods for synchronous and asynchronous mode,including NonDP,FixDP-S,FixDP-C,MAPA-S,MAPA-C,AdaClip1 and AdaClip2. And the algorithm is encapsulated in the docker container and defined by the makefile.
 ## 1.Environment Deployment
 
-|       OS       | Ubuntu 18.04 |
-| :------------: | :----------: |
+|     Python     |     3.6      |
 |     Docker     |   18.09.7    |
 | Docker-compose |    1.24.1    |
 |    OpenSSH     |     7.6      |
-## 2. Project structure
-
-```
-├──cloud
-|    ├── cloud-asgd.py       
-|    ├── cloud-mapa.py            
-|    ├── cloud-audp.py              
-|    ├── Dockerfile               Docker image build file
-|    ├── docker-compose.yml       Defining YAML files for services, networks, and volumes
-|    ├── params.py
-|    └── sources.list
-|
-├──edge
-|    ├── Dockerfile    
-|    ├── docker-compose.yml   
-|    ├── sources.list
-|    ├── edge-asgd.py
-|    ├── edge-mapa.py
-|    ├── edge-audp.py
-|    ├── data                               Datasets
-|    ├   └──MNIST
-|    ├      └──  …
-|    └──  result                              Output
-|        └── [EDGE_NUM:3][METHOD:asgd]        Naming rules: number of edge nodes, number of containers
-├──result
-├──Makefile                          Setting parameters    
-├──README.md
-└──ssh_config
- 
-```
-
-## 3.Network Configuration
-Before the application runs, first perform the network configuration of the user operating device and the working node, and write the network topology to the `ssh_config` file, such as：
-
+## 2.Network Configuration
+Before the application runs, first perform the network configuration of the user operating device and the working node, and write the network topology to the `ssh_config` file, such as�?
 ```
 Host cloud
     HostName xxx.xxx.xxx.xxx
@@ -56,9 +23,8 @@ Host edge1                                     #Node name
 
 ```
 
-## 4.Parameter settings
-Algorithm-related parameters are defined in the Makefile，such as：
-
+## 3.Parameter settings
+Algorithm-related parameters are defined in the Makefile，such as�?
 ```
 # In cloud 
 CLOUD := cloud                
@@ -68,17 +34,15 @@ MQTT_PORT ?= 1884               #cloud device MQTT broker port
 # In edge  
 EDGES := edge1                 #edge device name
 EDGES_NUM ?=1                   #edge device numbers
-CONTAINER_NUM ?=3             #Number of containers per edge device
-METHOD ?= asgd                #asgd,mapa,audp
-BATCH_SIZE ?= 24
+METHOD ?= NonDP                #NonDP,FixDP-S,FixDP-C,MAPA-S,MAPA-C,AdaClip1,AdaClip2
+BATCH_SIZE ?= 5
 EPOCH ?= 1
 TEST_NUM ?= 100               #Test every TEST_NUM iterations
-DATA_ROOT ?= './data/'            #Dataset directory 
 RESULT_ROOT ?= './result/'             #result directory  
 
 ```
 
-## 5.Run
+## 4.Run
 Under the project folder, execute the shell command to apply the project:
 * Perform network configuration between the user-operated device and the working node, including the configuration of ssh-free operation. After completing this step, the user operates the device to perform algorithm-related steps on other working nodes directly through ssh.
 ```

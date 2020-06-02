@@ -6,12 +6,10 @@ MQTT_PORT ?= 1884
 # In edge
 EDGES := edge1
 EDGES_NUM ?=1      #the number of edge device
-CONTAINER_NUM ?=3     #the number of container in each edge device
-METHOD ?= audp         #asgd, mapa,audp
-BATCH_SIZE ?= 24
-EPOCH ?= 1
-TEST_NUM ?= 100      
-DATA_ROOT ?= './data/'
+METHOD ?= NonDP         #NonDP,FixDP-S,FixDP-C,MAPA-S,MAPA-C,AdaClip1,AdaClip2
+BATCH_SIZE ?= 5
+EPOCH ?= 100
+TEST_NUM ?= 30      
 RESULT_ROOT ?= './result/'
 
 ifeq ($(OS),Windows_NT)
