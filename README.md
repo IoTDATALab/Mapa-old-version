@@ -1,3 +1,5 @@
+## Note: This project has been updated and complemented in June 2020. The details are referred to [here](https://github.com/IoTDATALab/Mapa)
+
 #  Asynchronous Federated Learning with Differential Privacy for Edge Intelligence
 Multi-stage adjustable private algorithm(MAPA) by computational differential privacy (DP) to protect the training process,focusing on the impacts of noise on the machine learning in AFL and a better trade-off between the model accuracy and privacy guarantee to improve the trade-off by dynamically adjusting the variance of noise
 
@@ -9,7 +11,7 @@ In order to compare the algorithm,we set up seven comparison methods for synchro
 | Docker-compose |    1.24.1    |
 |    OpenSSH     |     7.6      |
 ## 2.Network Configuration
-Before the application runs, first perform the network configuration of the user operating device and the working node, and write the network topology to the `ssh_config` file, such asï¼?
+Before the application runs, first perform the network configuration of the user operating device and the working node, and write the network topology to the `ssh_config` file, such asï¿½?
 ```
 Host cloud
     HostName xxx.xxx.xxx.xxx
@@ -24,7 +26,7 @@ Host edge1                                     #Node name
 ```
 
 ## 3.Parameter settings
-Algorithm-related parameters are defined in the Makefileï¼Œsuch asï¼?
+Algorithm-related parameters are defined in the Makefileï¼Œsuch asï¿½?
 ```
 # In cloud 
 CLOUD := cloud                
